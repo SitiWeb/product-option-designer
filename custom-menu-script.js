@@ -4,11 +4,11 @@ class POD_js_file {
             var nextGroupNumber = jQuery('.group-item').length + 1;
             var uniqueId = Date.now(); // Unique timestamp identifier
             var groupItem = '<div class="group-item">' +
-                                '<input type="text" name="group[id]['+uniqueId+']" value="' + nextGroupNumber + '-' + uniqueId + '" placeholder="ID">' +
-                                '<input type="text" name="group[name]['+nextGroupNumber+']" placeholder="Name">' +
-                                '<input type="text" name="group[price]['+nextGroupNumber+']" placeholder="Price">' +
-                                '<button type="button" class="remove-group-btn">Remove Group</button>' +
-                            '</div>';
+                '<input type="text" name="group[id][' + uniqueId + ']" value="' + nextGroupNumber + '-' + uniqueId + '" placeholder="ID">' +
+                '<input type="text" name="group[name][' + nextGroupNumber + ']" placeholder="Name">' +
+                '<input type="text" name="group[price][' + nextGroupNumber + ']" placeholder="Price">' +
+                '<button type="button" class="remove-group-btn">Remove Group</button>' +
+                '</div>';
             jQuery('#group-container').append(groupItem);
         });
 
