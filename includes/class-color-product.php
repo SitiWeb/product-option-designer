@@ -3,7 +3,7 @@ class Your_WooCommerce_Integration
 {
  
 
-    public function register()
+    public function register() 
     {
         add_action ('woocommerce_before_add_to_cart_form', [$this, 'sw_render_frontend']);
         // Add actions and filters related to WooCommerce integration.
