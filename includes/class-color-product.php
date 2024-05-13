@@ -5,7 +5,7 @@ class Your_WooCommerce_Integration
 
     public function register() 
     {
-        add_action ('woocommerce_simple_add_to_cart', [$this, 'sw_render_frontend'],29);
+        add_action ('woocommerce_before_add_to_cart_button', [$this, 'sw_render_frontend'],29);
 		add_action ('woocommerce_single_variation', [$this, 'sw_render_frontend'],15);
         // Add actions and filters related to WooCommerce integration.
         add_action('woocommerce_product_data_tabs', array($this, 'add_custom_product_data_tab'));
@@ -16,7 +16,7 @@ class Your_WooCommerce_Integration
         add_filter('woocommerce_add_cart_item_data', array($this, 'add_custom_data_to_cart_item'), 10, 2);
         // Display custom meta data in cart
         add_filter('woocommerce_get_item_data',  array($this, 'display_custom_meta_in_cart'), 10, 2);
-        add_action( 'woocommerce_before_calculate_totals', array($this,'add_custom_price') );
+        add_action( 'woocommerce_before_calculate_totals', array($this,'add_custom_price') , 100);
         add_filter('woocommerce_order_item_get_formatted_meta_data', array($this,'display_custom_meta_in_admin_order'), 10, 2);
         add_action('woocommerce_checkout_create_order_line_item', array($this,'save_custom_color_meta_to_order_items'), 10, 4);
 
@@ -24,7 +24,7 @@ class Your_WooCommerce_Integration
     }
 
     public function display_custom_meta_in_cart($item_data, $cart_item) {
-   
+        
         if (isset($cart_item['custom_color'])) {
             // Get the custom data
             $custom_data = $cart_item['custom_color'];
@@ -42,6 +42,7 @@ class Your_WooCommerce_Integration
     }
 
     public function add_custom_data_to_cart_item($cart_item_data, $product_id) {
+   
         if (isset($_POST['custom_color_field'])) {
             $custom_data = sanitize_text_field($_POST['custom_color_field']);
             // Add custom data to cart item
@@ -49,6 +50,7 @@ class Your_WooCommerce_Integration
         }
         return $cart_item_data;
     }
+    
 
     public function sw_render_frontend() {
         $template_path = PRODUCT_OPTION_DESIGNER_DIR. 'template/single-product-page.php';
@@ -153,12 +155,15 @@ class Your_WooCommerce_Integration
                 }
                 else{
                     $pricegroup = get_term_meta($value['custom_color'], 'pricegroup', true);
+                 
                     $colorgroup = new Color_group($value['product_id']);
                     $data = $colorgroup->get_price_group($pricegroup);
+                    
                     foreach ($data as $item) {
                         if ($item['slug'] === 'single') {
-                      
+                            
                             $value['data']->set_price($item['price'] + $value['data']->get_price());
+                         
                             break; // Exit the loop once the price is found
                         }
                     }
