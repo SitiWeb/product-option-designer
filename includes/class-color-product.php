@@ -5,7 +5,7 @@ class Your_WooCommerce_Integration
 
     public function register()
     {
-        add_action ('woocommerce_before_add_to_cart_button', [$this, 'sw_render_frontend']);
+        add_action ('woocommerce_before_add_to_cart_form', [$this, 'sw_render_frontend']);
         // Add actions and filters related to WooCommerce integration.
         add_action('woocommerce_product_data_tabs', array($this, 'add_custom_product_data_tab'));
         add_action('woocommerce_product_data_panels', array($this, 'add_custom_product_data_panel'));
