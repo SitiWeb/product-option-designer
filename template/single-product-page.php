@@ -7,16 +7,20 @@ $colors = new Color_Group_CPT();
         <label for="custom_color_field">Custom color Field:</label>
         <input type="text" id="custom_color_field" name="custom_color_field">
     </div>
-    <div>
+    <div style="display:grid;justify-content:space-between;">
         <div id="popupButton">Kies een kleur</div>
+        
     </div>
-    <div>* Op kleur gemaakte verf kan niet retour</div>
+    <div class="color-disclaimer"><small>* Op kleur gemaakte verf kan niet retour</small></div>
     <div class="custom-color-price"></div>
 </div>
 <div id="myPopup" class="popup">
     <div id="popup-content" class="popup-content">
         <div id="popup-header" class="popup-header">
-            <h3><?php echo ('Kies een kleur') ?></h3>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div><h3><?php echo ('Kies een kleur') ?></h3></div>
+                <div id="popupClose">X</div>
+            </div>
             <div>
                 <p>De prijs van onze natuurverven varieert afhankelijk van de gekozen kleur.
                     Zodra je een kleur selecteert, past de prijs zich automatisch aan.

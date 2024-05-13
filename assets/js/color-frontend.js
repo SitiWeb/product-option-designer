@@ -19,6 +19,17 @@ window.addEventListener(
     }
 );
 
+window.addEventListener(
+    "click",
+    function(event) {
+        if (event.target == myPopup) {
+            myPopup.classList.remove(
+                "show"
+            );
+        }
+    }
+);
+
 document.addEventListener("DOMContentLoaded", function() {
     createBoxes();
 });
@@ -53,6 +64,11 @@ function createBoxes() {
         });
     });
 
+    var popupCloseButton = document.getElementById('popupClose');
+    // Event listener to close the popup when clicking on the close button
+    popupCloseButton.addEventListener("click", function() {
+        myPopup.classList.remove("show");
+    });
 
 
     function updateColorChoices(filter) {
@@ -63,7 +79,7 @@ function createBoxes() {
 
         sortedColors.forEach(function(color) {
 
-            if (color.filter.toLowerCase().includes(filter)) { // Check if the color name includes the filter text
+            if (color.filter.toLowerCase().includes(filter) || color.name.toLowerCase().includes(filter)) { // Check if the color name includes the filter text
                 var colorChoice = document.createElement("div");
                 colorChoice.classList.add("color-choice");
                 colorChoice.style.backgroundColor = color.color;
@@ -91,23 +107,23 @@ function createBoxes() {
                     controlPanel.style.width = '100%';
                     controlPanel.classList.add("color-controlpanel");
 
-                    // Create a close button
-                    var closeButton = document.createElement("button");
-                    closeButton.textContent = 'X';
-                    closeButton.classList.add("close-button");
-                    closeButton.style.position = 'absolute';
-                    closeButton.style.top = '10px';
-                    closeButton.style.right = '10px';
-                    closeButton.style.cursor = 'pointer';
+                    // // Create a close button
+                    // var closeButton = document.createElement("button");
+                    // closeButton.textContent = 'X';
+                    // closeButton.classList.add("close-button");
+                    // closeButton.style.position = 'absolute';
+                    // closeButton.style.top = '10px';
+                    // closeButton.style.right = '10px';
+                    // closeButton.style.cursor = 'pointer';
 
-                    // Append the close button to the colorResult
-                    colorResult.appendChild(closeButton);
+                    // // Append the close button to the colorResult
+                    // colorResult.appendChild(closeButton);
 
-                    // Close button functionality
-                    closeButton.addEventListener("click", function() {
-                        event.preventDefault(); // Prevent the button from doing default actions like submitting form.
-                        myPopup.classList.remove("show");
-                    });
+                    // // Close button functionality
+                    // closeButton.addEventListener("click", function() {
+                    //     event.preventDefault(); // Prevent the button from doing default actions like submitting form.
+                    //     myPopup.classList.remove("show");
+                    // });
 
                     var nameDiv = document.createElement("div");
                     nameDiv.innerHTML = this.getAttribute("data-name") + '<br><span style="font-weight:400">' + this.getAttribute("data-group") + '</span>';
