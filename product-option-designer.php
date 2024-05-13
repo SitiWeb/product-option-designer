@@ -3,7 +3,7 @@
 Plugin Name: Custom color selector
 Plugin URI: https://sitiweb.nl
 Description: This plugin adds custom color selector for WooCommerce products
-Version: 1.6
+Version: 1.7
 Author: Roberto van SitiWeb
 Author URI: https://sitiweb.nl
 License: GPL v2 or later
