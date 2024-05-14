@@ -7,17 +7,17 @@ class Color_Group_CPT
 
     // Define constant array of colors using const (PHP 5.6+)
     const COLOR_VALUES = [
-        'yellow'        => ['hex' => '#F7D143', 'label' => 'Yellow'],
-        'orange'        => ['hex' => '#D9AE4F', 'label' => 'Orange'], 
-        'light_green'   => ['hex' => '#D1E39D', 'label' => 'Light Green'],
-        'green'         => ['hex' => '#7FA05B', 'label' => 'Green'],
-        'light_blue'    => ['hex' => '#61CCD7', 'label' => 'Light Blue'],
-        'blue'          => ['hex' => '#5989D6', 'label' => 'Blue'],
-        'pink'          => ['hex' => '#D1A8CE', 'label' => 'Pink'],
-        'rose'          => ['hex' => '#D9A59B', 'label' => 'Rose'],
-        'red'           => ['hex' => '#B26448', 'label' => 'Red'],
-        'grey'          => ['hex' => '#7C7C7C', 'label' => 'Grey'],  
-        'white'         => ['hex' => '#D6D6D6', 'label' => 'White'],
+        'yellow'        => ['code' => 1, 'hex' => '#F7D143', 'label' => 'Yellow', 'value'=> 'yellow'],
+        'orange'        => ['code' => 2, 'hex' => '#D9AE4F', 'label' => 'Orange', 'value'=> 'orange'], 
+        'light_green'   => ['code' => 3, 'hex' => '#D1E39D', 'label' => 'Light Green', 'value'=> 'light_green'],
+        'green'         => ['code' => 4, 'hex' => '#7FA05B', 'label' => 'Green', 'value'=> 'green'],
+        'light_blue'    => ['code' => 5, 'hex' => '#61CCD7', 'label' => 'Light Blue', 'value'=> 'light_blue'],
+        'blue'          => ['code' => 6, 'hex' => '#5989D6', 'label' => 'Blue', 'value'=> 'blue'],
+        'pink'          => ['code' => 7, 'hex' => '#D1A8CE', 'label' => 'Pink', 'value'=> 'pink'],
+        'rose'          => ['code' => 8, 'hex' => '#D9A59B', 'label' => 'Rose', 'value'=> 'rose'],
+        'red'           => ['code' => 9, 'hex' => '#B26448', 'label' => 'Red', 'value'=> 'red'],
+        'grey'          => ['code' => 10, 'hex' => '#7C7C7C', 'label' => 'Grey', 'value'=> 'grey'],  
+        'white'         => ['code' => 11, 'hex' => '#D6D6D6', 'label' => 'White', 'value'=> 'white'],
     ];
 
     public function __construct()
@@ -122,23 +122,23 @@ class Color_Group_CPT
     public function register_taxonomy()
     {
         $labels = array(
-            'name'                       => __('Color Groups', 'your-plugin-name'),
-            'singular_name'              => __('Color Group', 'your-plugin-name'),
-            'menu_name'                  => __('Color Groups', 'your-plugin-name'),
-            'all_items'                  => __('All Color Groups', 'your-plugin-name'),
-            'edit_item'                  => __('Edit Color Group', 'your-plugin-name'),
-            'view_item'                  => __('View Color Group', 'your-plugin-name'),
-            'update_item'                => __('Update Color Group', 'your-plugin-name'),
-            'add_new_item'               => __('Add New Color Group', 'your-plugin-name'),
-            'new_item_name'              => __('New Color Group Name', 'your-plugin-name'),
-            'parent_item'                => __('Parent Color Group', 'your-plugin-name'),
-            'parent_item_colon'          => __('Parent Color Group:', 'your-plugin-name'),
-            'search_items'               => __('Search Color Groups', 'your-plugin-name'),
-            'popular_items'              => __('Popular Color Groups', 'your-plugin-name'),
-            'separate_items_with_commas' => __('Separate color groups with commas', 'your-plugin-name'),
-            'add_or_remove_items'        => __('Add or remove color groups', 'your-plugin-name'),
-            'choose_from_most_used'      => __('Choose from the most used color groups', 'your-plugin-name'),
-            'not_found'                  => __('No color groups found.', 'your-plugin-name')
+            'name'                       => __('Colors', 'your-plugin-name'),
+            'singular_name'              => __('Color', 'your-plugin-name'),
+            'menu_name'                  => __('Colors', 'your-plugin-name'),
+            'all_items'                  => __('All Colors', 'your-plugin-name'),
+            'edit_item'                  => __('Edit Colors', 'your-plugin-name'),
+            'view_item'                  => __('View Colors', 'your-plugin-name'),
+            'update_item'                => __('Update Colors', 'your-plugin-name'),
+            'add_new_item'               => __('Add New Colors', 'your-plugin-name'),
+            'new_item_name'              => __('New Colors Name', 'your-plugin-name'),
+            'parent_item'                => __('Parent Colors', 'your-plugin-name'),
+            'parent_item_colon'          => __('Parent Color:', 'your-plugin-name'),
+            'search_items'               => __('Search Color', 'your-plugin-name'),
+            'popular_items'              => __('Popular Color', 'your-plugin-name'),
+            'separate_items_with_commas' => __('Separate color with commas', 'your-plugin-name'),
+            'add_or_remove_items'        => __('Add or remove color', 'your-plugin-name'),
+            'choose_from_most_used'      => __('Choose from the most used color', 'your-plugin-name'),
+            'not_found'                  => __('No color found.', 'your-plugin-name')
         );
 
         $args = array(
@@ -456,5 +456,16 @@ class Color_Group_CPT
             }
         }
        
+    }
+
+    public function getColorByCode($code) {
+    
+        foreach (Color_Group_CPT::COLOR_VALUES as $color => $details) {
+            if ($details['code'] === $code) {
+                return $details;
+            }
+        }
+    
+        return null; // Return null if no color matches the code
     }
 }
