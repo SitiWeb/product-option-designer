@@ -29,9 +29,9 @@ window.addEventListener(
         }
     }
 );
-
 document.addEventListener("DOMContentLoaded", function() {
     createBoxes();
+    removeEmptyFilters();
 });
 
 function createBoxes() {
@@ -45,8 +45,6 @@ function createBoxes() {
 
     // Select all elements with the class 'color-filter-choice'
     var elements = document.querySelectorAll('.color-filter-choice');
-    // Get the filter input element
-    var filterInput = document.getElementById("filterInput");
 
     // Add event listener for 'input' event
     filterInput.addEventListener('input', function() {
@@ -54,10 +52,10 @@ function createBoxes() {
         console.log(filterValue); // Optionally log the filter value to the console
         updateColorChoices(filterValue); // Call function to update color choices based on filter
     });
+
     // Loop through the NodeList and attach an event listener to each element
     elements.forEach(function(element) {
         element.addEventListener('click', function() {
-
             var filterValue = this.getAttribute("data-colorfilter").toLowerCase(); // 'this' refers to the current element in the loop
             console.log(filterValue);
             updateColorChoices(filterValue);
@@ -70,7 +68,6 @@ function createBoxes() {
         myPopup.classList.remove("show");
     });
 
-
     function updateColorChoices(filter) {
         colorContent.innerHTML = ''; // Clear existing color choices before appending filtered ones
 
@@ -78,7 +75,6 @@ function createBoxes() {
         let sortedColors = colorData.sort((a, b) => a.order - b.order);
 
         sortedColors.forEach(function(color) {
-
             if (color.filter.toLowerCase().includes(filter) || color.name.toLowerCase().includes(filter)) { // Check if the color name includes the filter text
                 var colorChoice = document.createElement("div");
                 colorChoice.classList.add("color-choice");
@@ -106,24 +102,6 @@ function createBoxes() {
                     controlPanel.style.alignItems = 'center';
                     controlPanel.style.width = '100%';
                     controlPanel.classList.add("color-controlpanel");
-
-                    // // Create a close button
-                    // var closeButton = document.createElement("button");
-                    // closeButton.textContent = 'X';
-                    // closeButton.classList.add("close-button");
-                    // closeButton.style.position = 'absolute';
-                    // closeButton.style.top = '10px';
-                    // closeButton.style.right = '10px';
-                    // closeButton.style.cursor = 'pointer';
-
-                    // // Append the close button to the colorResult
-                    // colorResult.appendChild(closeButton);
-
-                    // // Close button functionality
-                    // closeButton.addEventListener("click", function() {
-                    //     event.preventDefault(); // Prevent the button from doing default actions like submitting form.
-                    //     myPopup.classList.remove("show");
-                    // });
 
                     var nameDiv = document.createElement("div");
                     nameDiv.innerHTML = this.getAttribute("data-name") + '<br><span style="font-weight:400">' + this.getAttribute("data-group") + '</span>';
@@ -175,7 +153,6 @@ function createBoxes() {
                     colorResult.appendChild(controlPanel);
                     colorResult.appendChild(colorDisplay);
 
-
                     // Event handler for the 'Selecteer deze kleur' button
                     button1.addEventListener("click", function(event) {
                         event.preventDefault(); // Prevent the button from doing default actions like submitting form.
@@ -192,15 +169,37 @@ function createBoxes() {
                     });
                 });
 
-
-
-
                 colorContent.appendChild(colorChoice);
             }
         });
     }
 
     updateColorChoices(''); // Initially call with no filter to display all colors
+}
+
+function removeEmptyFilters() {
+    var filterBar = document.querySelector('.color-filter-bar');
+    var filters = document.querySelectorAll('.color-filter-choice');
+    // Sort colorData by the 'order' attribute
+    let sortedColors = colorData.sort((a, b) => a.order - b.order);
+
+
+    filters.forEach(function(filter) {
+        var filterColor = filter;
+
+
+        sortedColors.forEach(function(color) {
+            if (color.filter === filterColor) {
+                console.log(color.filter);
+                console.log(filterColor);
+            }
+
+        });
+    });
+
+    if (document.querySelectorAll('.color-filter-choice').length === 0) {
+        filterBar.style.display = 'none';
+    }
 }
 
 

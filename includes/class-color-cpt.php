@@ -4,9 +4,8 @@ class Color_Group_CPT
     private $post_type_colors;
     private $post_label_colors;
     private $post_slug_colors;
-
-    // Define constant array of colors using const (PHP 5.6+)
-    const COLOR_VALUES = [
+    // Default color values
+    private $default_color_values = [
         'yellow'        => ['code' => 1, 'hex' => '#F7D143', 'label' => 'Yellow', 'value'=> 'yellow'],
         'orange'        => ['code' => 2, 'hex' => '#D9AE4F', 'label' => 'Orange', 'value'=> 'orange'], 
         'light_green'   => ['code' => 3, 'hex' => '#D1E39D', 'label' => 'Light Green', 'value'=> 'light_green'],
@@ -26,6 +25,19 @@ class Color_Group_CPT
         $this->post_label_colors = 'color_group_cpt';
         $this->post_slug_colors = 'color-group-cpt';
     }
+
+
+    
+
+    // Method to get color values from options
+    public function get_color_values() {
+        $color_values = get_option('color_values');
+        if (empty($color_values)) {
+            $color_values = $this->default_color_values;
+        }
+        return $color_values;
+    }
+
     public function register()
     {
         $labels = array(
@@ -238,8 +250,8 @@ class Color_Group_CPT
     <?php
 
     // Assuming Color_Group_CPT is included and available
-    $colors = Color_Group_CPT::COLOR_VALUES;
-
+    $colors = $this->get_color_values();
+    
     // Retrieve current color value stored as term meta
     $current_color = get_term_meta($term->term_id, 'term_color_filter', true);
 
@@ -460,7 +472,7 @@ class Color_Group_CPT
 
     public function getColorByCode($code) {
     
-        foreach (Color_Group_CPT::COLOR_VALUES as $color => $details) {
+        foreach ($this->get_color_values() as $color => $details) {
             if ($details['code'] === $code) {
                 return $details;
             }

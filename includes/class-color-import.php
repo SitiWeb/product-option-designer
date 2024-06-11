@@ -15,15 +15,17 @@ class Color_Group_Import
 
     public function import_data()
     {
+        
         if (($handle = fopen($this->file_path, 'r')) !== false) {
             // Loop through each line of the CSV file
-            
+          
             $i = 0;
             while (($data = fgetcsv($handle, 0, ',')) !== false) {
                 $i++;
                 if ($i === 1){
                     continue;
                 }
+               
                 // Process each row of data
                 $this->process_row($data);
                 
@@ -51,15 +53,20 @@ class Color_Group_Import
         $number_id = isset($data[0]) ? intval($data[0]) : 0;
         $term_name = isset($data[1]) ? sanitize_text_field($data[1]) : '';
         $term_price_group = isset($data[2]) ? intval($data[2]) : 0; 
-        $kleurfilter = isset($data[3]) ? intval($data[3]) : 0;
+        $kleurfilter = isset($data[3]) ? intval($data[3]) : false;
         $term_color = isset($data[4]) ? sanitize_hex_color($data[4]) : '';
         $term_color_group = isset($data[5]) ? intval($data[5]) : 0;
         $colors = new Color_Group_CPT();
-        $code_group = $colors->getColorByCode($kleurfilter);
+        if ($kleurfilter){
+            $code_group = $colors->getColorByCode($kleurfilter);
+        }
+        else{
+            $code_group = false;
+        }
+        
         $term_order = 0;
 
-        if (!$code_group || !$term_color || !$term_name || !$number_id){
-          
+        if (!$term_color || !$term_name || !$number_id){
             return;
         }
 
@@ -93,7 +100,10 @@ class Color_Group_Import
             update_term_meta($term_id, 'custom_order', $term_order);
             update_term_meta($term_id, 'colorpicker', $term_color);
             update_term_meta($term_id, 'pricegroup', $term_price_group);
-            $result = update_term_meta($term_id, 'term_color_filter', $code_group['label']);
+            if ($code_group){
+                $result = update_term_meta($term_id, 'term_color_filter', $code_group['label']);
+            }
+            
             // var_dump( $existing_term_id );
             // var_dump( $code_group );
             // var_dump( $code_group['label'] );
@@ -130,7 +140,10 @@ class Color_Group_Import
             update_term_meta($term_id, 'custom_order', $term_order);
             update_term_meta($term_id, 'colorpicker', $term_color);
             update_term_meta($term_id, 'pricegroup', $term_price_group);
-            update_term_meta($term_id, 'term_color_filter', $code_group['label']);
+            if ($code_group){
+                $result = update_term_meta($term_id, 'term_color_filter', $code_group['label']);
+            }
+            
             
         }
 

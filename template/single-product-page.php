@@ -41,9 +41,10 @@ $colors = new Color_Group_CPT();
                 <div class="color-filters" style="display: flex; flex-wrap: wrap;">
                     <div><small>Filter op kleur:</small></div>
                     <?php
-                    foreach ($colors::COLOR_VALUES as $color => $value) {
-                        echo '<div class="color-filter-choice" style="text-align: center; " class="filter-color-item" data-colorfilter="' . $color . '">';
-                        echo '<div style="width: 18px; height: 18px; background-color: ' . $value['hex'] . ';" data-colorfilter="' . $color . '"></div>';
+                    foreach ($colors->get_color_values() as $color => $value) {
+                      
+                        echo '<div class="color-filter-choice" style="text-align: center; " class="filter-color-item" data-colorfilter="' . $value['label'] . '">';
+                        echo '<div style="width: 18px; height: 18px; background-color: ' . $value['hex'] . ';" data-colorfilter="' . $value['label'] . '"></div>';
 
                         echo '</div>';
                     }
