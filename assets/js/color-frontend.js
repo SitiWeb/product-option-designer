@@ -185,16 +185,23 @@ function removeEmptyFilters() {
 
 
     filters.forEach(function(filter) {
+        var foundColor = false;
+        // console.log(filter);
         var filterColor = filter;
+        var colorFilter = (filter.getAttribute('data-colorfilter'));
 
 
         sortedColors.forEach(function(color) {
-            if (color.filter === filterColor) {
-                console.log(color.filter);
-                console.log(filterColor);
+            console.log(color.filter);
+            console.log(colorFilter);
+            if (color.filter === colorFilter) {
+                foundColor = true;
             }
 
         });
+        if (!foundColor) {
+            filter.style.display = 'none';
+        }
     });
 
     if (document.querySelectorAll('.color-filter-choice').length === 0) {

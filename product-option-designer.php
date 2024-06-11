@@ -3,7 +3,7 @@
 Plugin Name: Custom color selector
 Plugin URI: https://sitiweb.nl
 Description: This plugin adds custom color selector for WooCommerce products
-Version: 1.8
+Version: 1.9
 Author: Roberto van SitiWeb
 Author URI: https://sitiweb.nl
 License: GPL v2 or later
@@ -66,7 +66,7 @@ function enqueue_color_frontend_script() {
         // Enqueue Popup.js CSS
         wp_enqueue_style('popup-css', PRODUCT_OPTION_DESIGNER_URL . 'assets/css/popup.css', array(), '1.0', 'all');
         
-        wp_enqueue_script('popup-js', PRODUCT_OPTION_DESIGNER_URL . 'assets/js/popup.js', array('jquery'), '1.0', true);
+       // wp_enqueue_script('popup-js', PRODUCT_OPTION_DESIGNER_URL . 'assets/js/popup.js', array('jquery'), '1.0', true);
         wp_enqueue_script('color-plugin-frontend', PRODUCT_OPTION_DESIGNER_URL . 'assets/js/color-frontend.js', array('jquery'), '1.0', true);
         // Localize the script with the data
         wp_localize_script('color-plugin-frontend', 'colorData', $data);
