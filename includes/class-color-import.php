@@ -69,6 +69,7 @@ class Color_Group_Import
         if (!$term_color || !$term_name || !$number_id){
             return;
         }
+    
 
         
         
@@ -101,7 +102,7 @@ class Color_Group_Import
             update_term_meta($term_id, 'colorpicker', $term_color);
             update_term_meta($term_id, 'pricegroup', $term_price_group);
             if ($code_group){
-                $result = update_term_meta($term_id, 'term_color_filter', $code_group['label']);
+                $result = update_term_meta($term_id, 'term_color_filter', $code_group['value']);
             }
             
             // var_dump( $existing_term_id );
@@ -141,7 +142,7 @@ class Color_Group_Import
             update_term_meta($term_id, 'colorpicker', $term_color);
             update_term_meta($term_id, 'pricegroup', $term_price_group);
             if ($code_group){
-                $result = update_term_meta($term_id, 'term_color_filter', $code_group['label']);
+                $result = update_term_meta($term_id, 'term_color_filter', $code_group['value']);
             }
             
             

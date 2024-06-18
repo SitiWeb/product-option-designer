@@ -39,6 +39,7 @@ Class Color_group{
                     $theme = get_term_meta($term->term_id, 'theme', true);
                     $order = get_term_meta($term->term_id, 'custom_order', true);
                     $filter = get_term_meta($term->term_id, 'term_color_filter', true);
+                 
                     if (!$theme){
                         $theme = 'light';
                     }
@@ -46,6 +47,7 @@ Class Color_group{
 
                     if ($price_group_id){
                         $price_group = $this->get_price_group($price_group_id);
+                      
                         if ($price_group){
                             $term_data = array(
                                 'id' => $term->term_id,

@@ -43,7 +43,7 @@ $colors = new Color_Group_CPT();
                     <?php
                     foreach ($colors->get_color_values() as $color => $value) {
                       
-                        echo '<div class="color-filter-choice" style="text-align: center; " class="filter-color-item" data-colorfilter="' . $value['label'] . '">';
+                        echo '<div class="color-filter-choice" style="text-align: center; " class="filter-color-item" data-colorfilter="' . $value['value'] . '">';
                         echo '<div style="width: 18px; height: 18px; background-color: ' . $value['hex'] . ';" data-colorfilter="' . $value['label'] . '"></div>';
 
                         echo '</div>';

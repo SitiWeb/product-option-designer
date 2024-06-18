@@ -262,8 +262,8 @@ class Color_Group_CPT
                 <option value="">Select a Color</option>';
 
     foreach ($colors as $slug => $color_info) {
-        $selected = ($current_color === $color_info['label']) ? 'selected="selected"' : '';
-        echo '<option value="' . esc_attr($color_info['label']) . '" ' . $selected . '>' . esc_html($color_info['label']) . '</option>';
+        $selected = ($current_color === $color_info['value']) ? 'selected="selected"' : '';
+        echo '<option value="' . esc_attr($color_info['value']) . '" ' . $selected . '>' . esc_html($color_info['label']) . '</option>';
     }
 
     echo '</select>
@@ -471,11 +471,12 @@ class Color_Group_CPT
     }
 
     public function getColorByCode($code) {
-    
+        $i = 1;
         foreach ($this->get_color_values() as $color => $details) {
-            if ($details['code'] === $code) {
+            if (isset($i) && $i === $code) {
                 return $details;
             }
+            $i++;
         }
     
         return null; // Return null if no color matches the code
