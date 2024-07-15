@@ -226,6 +226,28 @@ class Color_Group_Import
     }
 
     public function create_price_group(){
+         // Get the taxonomy name for the attribute
+        $attribute_name = 'pricegroup';
+        $attribute_slug = 'pricegroup';
+        $taxonomy = 'pa_' . $attribute_slug;
+        // Check if the attribute exists
+        $attribute_id = wc_attribute_taxonomy_id_by_name($attribute_name);
+        if (!$attribute_id) {
+            // Attribute does not exist, create it
+            $attribute_id = wc_create_attribute(array(
+                'name' => $attribute_name,
+                'slug' => $attribute_slug,
+                'type' => 'select', // 'select' for dropdown
+                'order_by' => 'menu_order',
+                'has_archives' => false,
+            ));
+    
+            if (is_wp_error($attribute_id)) {
+                // Handle error
+                return;
+            }
+        }
+    
         
         foreach($this->price_group_array as $index => $post){
             $args = array(
@@ -256,6 +278,30 @@ class Color_Group_Import
                     update_post_meta($new_post_id, 'price_group_meta_field', $index);
                 } else {
                     // Handle error
+                }
+            }
+            $term_name = 'pricegroup ' . $index;
+            $term_slug = 'pricegroup-' . $index;
+
+            // Check if the term already exists
+            $term = term_exists($term_name, $taxonomy);
+
+            if ($term === 0 || $term === null) {
+                // Term does not exist, create it
+                $new_term = wp_insert_term(
+                    $term_name, // The term
+                    $taxonomy, // The taxonomy
+                    array(
+                        'description' => '' . $term_name,
+                        'slug' => $term_slug,
+                    )
+                );
+
+                if (is_wp_error($new_term)) {
+                    // Handle error
+                } else {
+                    // Optionally, add term meta or other operations
+                    // add_term_meta($new_term['term_id'], 'meta_key', 'meta_value', true);
                 }
             }
         }

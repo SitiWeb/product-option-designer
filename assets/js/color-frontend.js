@@ -207,6 +207,7 @@ function removeEmptyFilters() {
 
 
 function calculateCustomPrice(clickedColorId) {
+    console.log(clickedColorId);
     if (!clickedColorId) {
         return false;
     }
@@ -216,8 +217,11 @@ function calculateCustomPrice(clickedColorId) {
     selectedContents = getSelectedAttributes();
 
     if (selectedRow) {
+        
         if (productData.productType == 'variable') {
-            var originalPrice = findPriceBySlug(selectedRow.pricegroup, selectedContents.attribute_pa_inhoud);
+            console.log(selectedRow);
+            var originalPrice = findPriceBySlug(selectedRow, selectedContents.attribute_pa_inhoud);
+            console.log(originalPrice);
             var varId = jQuery('input.variation_id').val(); // Get the current variation ID
             if (varId) {
                 //alert('You just selected variation #' + varId);
@@ -244,11 +248,22 @@ function calculateCustomPrice(clickedColorId) {
 
 
 }
-// Function to find price by slug
-function findPriceBySlug(pricegroup, slug) {
-    var result = pricegroup.find(item => item.slug === slug);
 
-    return result ? result.price : undefined; // Return the price if found, otherwise undefined
+// Function to find price by slug
+function findPriceBySlug(selectedRow, slug) {
+    var result = selectedRow.pricegroup.find(item => item.slug === slug);
+    var var_id = jQuery('input.variation_id').val();
+    console.log(result);
+    if(customFieldsData[var_id][selectedRow.pricegroupId]){
+        return customFieldsData[var_id][selectedRow.pricegroupId];
+    }
+    else if(result){
+        return result;
+    }
+    else{
+        return undefined;
+    }
+    
 }
 
 

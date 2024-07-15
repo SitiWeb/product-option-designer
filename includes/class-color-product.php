@@ -139,35 +139,49 @@ class Your_WooCommerce_Integration
                     $term_slug = $value['variation'][key($value['variation'])];
                     $term = get_term_by('slug', $term_slug, $product_attribute->slug);
                 }
-                
-                
-                if ($term){
-                    $pricegroup = get_term_meta($value['custom_color'], 'pricegroup', true);
-                    $colorgroup = new Color_group($value['product_id']);
-                    $data = $colorgroup->get_price_group($pricegroup);
-                    foreach ($data as $item) {
-                        if ($item['slug'] === $term_slug) {
-                      
-                            $value['data']->set_price($item['price'] + $value['data']->get_price());
-                            break; // Exit the loop once the price is found
-                        }
+           
+                $pricegroup = get_term_meta($value['custom_color'], 'pricegroup', true);
+                if (isset($value['variation_id']) && !empty ($value['variation_id'])){
+                    #new
+                    $new_costs = get_post_meta($value['variation_id'], 'custom_price_pricegroup-' . $pricegroup, true);
+                    if ($new_costs){
+                        $value['data']->set_price(intval($new_costs) + $value['data']->get_price());
                     }
                 }
                 else{
-                    $pricegroup = get_term_meta($value['custom_color'], 'pricegroup', true);
-                 
-                    $colorgroup = new Color_group($value['product_id']);
-                    $data = $colorgroup->get_price_group($pricegroup);
-                    
-                    foreach ($data as $item) {
-                        if ($item['slug'] === 'single') {
-                            
-                            $value['data']->set_price($item['price'] + $value['data']->get_price());
-                         
-                            break; // Exit the loop once the price is found
+                    #legacy
+                    if ($term){
+                        $pricegroup = get_term_meta($value['custom_color'], 'pricegroup', true);
+                        $colorgroup = new Color_group($value['product_id']);
+                        
+                        $data = $colorgroup->get_price_group($pricegroup);
+                      
+                        foreach ($data as $item) {
+                            if ($item['slug'] === $term_slug) {
+                                $value['data']->set_price(intval($item['price']) + $value['data']->get_price());
+                                break; // Exit the loop once the price is found
+                            }
+                        }
+                    }
+                    else{
+                        $pricegroup = get_term_meta($value['custom_color'], 'pricegroup', true);
+                     
+                        $colorgroup = new Color_group($value['product_id']);
+                        $data = $colorgroup->get_price_group($pricegroup);
+                        
+                        foreach ($data as $item) {
+                            if ($item['slug'] === 'single') {
+                                
+                                $value['data']->set_price($item['price'] + $value['data']->get_price());
+                                break; // Exit the loop once the price is found
+                            }
                         }
                     }
                 }
+                
+                
+          
+              
             }
         }
     }
