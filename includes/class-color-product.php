@@ -135,15 +135,20 @@ class Your_WooCommerce_Integration
                 $product_attribute = wc_get_attribute($attribute_id);
                 $product_slug = ('attribute_'.$product_attribute->slug);
                 $term = false;
+            
                 if (isset($value['variation']) && isset($value['variation'][$product_slug])){
                     $term_slug = $value['variation'][key($value['variation'])];
                     $term = get_term_by('slug', $term_slug, $product_attribute->slug);
+                
                 }
            
                 $pricegroup = get_term_meta($value['custom_color'], 'pricegroup', true);
                 if (isset($value['variation_id']) && !empty ($value['variation_id'])){
                     #new
+                    
                     $new_costs = get_post_meta($value['variation_id'], 'custom_price_pricegroup-' . $pricegroup, true);
+                    var_dump($new_costs);
+                    wp_die();
                     if ($new_costs){
                         $value['data']->set_price(intval($new_costs) + $value['data']->get_price());
                     }
@@ -158,7 +163,7 @@ class Your_WooCommerce_Integration
                       
                         foreach ($data as $item) {
                             if ($item['slug'] === $term_slug) {
-                                $value['data']->set_price(intval($item['price']) + $value['data']->get_price());
+                                $value['data']->set_price(floatval($item['price']) + $value['data']->get_price());
                                 break; // Exit the loop once the price is found
                             }
                         }
