@@ -147,8 +147,6 @@ class Your_WooCommerce_Integration
                     #new
                     
                     $new_costs = get_post_meta($value['variation_id'], 'custom_price_pricegroup-' . $pricegroup, true);
-                    var_dump($new_costs);
-                    wp_die();
                     if ($new_costs){
                         $value['data']->set_price(intval($new_costs) + $value['data']->get_price());
                     }
